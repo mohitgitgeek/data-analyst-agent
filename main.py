@@ -15,8 +15,8 @@ from typing import List, Dict, Union, Any # Added 'Any' for some generic types i
 
 # --- LLM Integration Placeholder (Example using OpenAI) ---
 # If you plan to use an LLM for task interpretation, uncomment and configure:
-# from openai import OpenAI
-# client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+from openai import OpenAI
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # --- DuckDB Integration Setup (Uncomment and implement if using live DuckDB) ---
 # If you decide to implement the real DuckDB S3 queries, uncomment this block
@@ -116,13 +116,13 @@ def _generate_plot_base64(
             print(f"Warning: Plot size ({len(img_base64)} bytes) exceeds 100,000 bytes for '{title}'. Consider lower DPI or different format/compression.")
             # For the Indian High Court plot, if WEBP is strictly required and PNG is too large,
             # you'd implement Pillow conversion here:
-            # from PIL import Image
-            # img = Image.open(buf_png_data) # Use previously saved PNG data
-            # webp_buf = io.BytesIO()
-            # img.save(webp_buf, format='webp', quality=80) # Convert to WebP
-            # webp_buf.seek(0)
-            # img_base64 = "data:image/webp;base64," + base64.b64encode(webp_buf.read()).decode('utf-8')
-            # plt.close() # Ensure original plot is closed
+            from PIL import Image
+            img = Image.open(buf_png_data) # Use previously saved PNG data
+            webp_buf = io.BytesIO()
+            img.save(webp_buf, format='webp', quality=80) # Convert to WebP
+            webp_buf.seek(0)
+            img_base64 = "data:image/webp;base64," + base64.b64encode(webp_buf.read()).decode('utf-8')
+            plt.close() # Ensure original plot is closed
     
     return img_base64
 
